@@ -1,0 +1,238 @@
+{
+	"info": {
+		"_postman_id": "b2689def-a7b5-4cb9-8117-10d59b62e756",
+		"name": "TPZ Labs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34865787"
+	},
+	"item": [
+		{
+			"name": "getUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validate user\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const name = pm.collectionVariables.get(\"name\");\r",
+							"    const userName = pm.collectionVariables.get(\"userName\");\r",
+							"    const email = pm.collectionVariables.get(\"email\");\r",
+							"    pm.expect(responseJson.name).to.eql(name);\r",
+							"    pm.expect(responseJson.username).to.eq(userName);\r",
+							"    pm.expect(responseJson.email).to.eq(email);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/users/{{userId}}",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"users",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validate user creation\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const name = pm.globals.get(\"globalName\") + \" \" + pm.globals.get(\"globalSurname\");\r",
+							"    const userName = pm.globals.get(\"globalName\");\r",
+							"    const email = pm.globals.get(\"globalEmail\");\r",
+							"    pm.expect(responseJson.name).to.eql(name);\r",
+							"    pm.expect(responseJson.username).to.eq(userName);\r",
+							"    pm.expect(responseJson.email).to.eq(email);\r",
+							"    pm.expect(responseJson.id).to.eq(11);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{globalName}} {{globalSurname}}\",\r\n    \"username\": \"{{globalName}}\",\r\n    \"email\": \"{{globalEmail}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/users",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updatePost",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validate post update\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const title = pm.environment.get(\"title\");\r",
+							"    const body = pm.environment.get(\"body\");\r",
+							"    const userId = 11;\r",
+							"    pm.expect(responseJson.title).to.eql(title);\r",
+							"    pm.expect(responseJson.body).to.eq(body);\r",
+							"    pm.expect(responseJson.userId).to.eq(userId);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"{{title}}\",\r\n  \"body\": \"{{body}}\",\r\n  \"userId\": 11\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/posts/{{postId}}",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"posts",
+						"{{postId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deletePost",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validate user creation\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/posts/{{postId}}",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"posts",
+						"{{postId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "name",
+			"value": "Leanne Graham",
+			"type": "string"
+		},
+		{
+			"key": "userName",
+			"value": "Bret",
+			"type": "string"
+		},
+		{
+			"key": "email",
+			"value": "Sincere@april.biz",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "postId",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}

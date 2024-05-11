@@ -1,0 +1,27 @@
+{
+	"id": "390ebfb3-5a65-472e-840d-54b760fb87e0",
+	"values": [
+		{
+			"key": "globalName",
+			"value": "Liliia",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "globalSurname",
+			"value": "Chulei",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "globalEmail",
+			"value": "chulei.liliia@chnu.edu.ua",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"name": "Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2024-05-11T21:05:24.144Z",
+	"_postman_exported_using": "Postman/11.0.12"
+}
