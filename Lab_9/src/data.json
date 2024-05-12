@@ -1,0 +1,8 @@
+{
+    "user": "standard_user",
+    "password": "secret_sauce",
+    "wrong_user": "user1",
+    "wrong_password": "password",
+    "error_message": "Epic sadface: Username and password do not match any user in this service",
+    "item_name": "Sauce Labs Backpack"
+}

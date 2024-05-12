@@ -5,7 +5,7 @@ import data from './data.json' assert { type: "json" };;
 describe('SauceDemo tests', () => {
     let driver;
     before(async () => {
-      driver = new Builder().forBrowser('chrome')
+      driver = new Builder().forBrowser('chrome', '114')
       .build();
 
     }, 30000);

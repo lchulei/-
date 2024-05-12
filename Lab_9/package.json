@@ -1,0 +1,21 @@
+{
+  "name": "lab_8",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "mocha src/tests.js --timeout 30000"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "selenium-webdriver": "^4.20.0"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^10.7.0",
+    "chai": "^5.1.1",
+    "mocha": "^10.4.0"
+  },
+  "description": ""
+}
