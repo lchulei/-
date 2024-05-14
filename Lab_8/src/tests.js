@@ -24,40 +24,31 @@ describe('SauceDemo tests', () => {
     }, 40000);
   
     it('[TC-1] User should be able to login with correct credentials', async () => {
-        await LoginPage.setUserName(data.user);
-        await LoginPage.setPassword(data.password);
-        await LoginPage.loginButton.click();
+        await LoginPage.login(data.user, data.password);
 
         await InventoryPage.waitPageToLoad(5000);
-
         expect(await InventoryPage.title.getText()).to.eq('Products');
     });
 
     it('[TC-2] User should see error messages when input incorrect data', async () => {
-        await LoginPage.setUserName(data.wrong_user);
-        await LoginPage.setPassword(data.wrong_password);
-        await LoginPage.loginButton.click();
-        expect(await LoginPage.error.getText()).to.contain(data.error_message);
-        await LoginPage.errorButton.click();
-        expect(await LoginPage.isErrorDisplayed()).to.be.false;
+        const validateAndCloseError = async () => {
+            expect(await LoginPage.error.getText()).to.contain(data.error_message);
+            await LoginPage.errorButton.click();
+            expect(await LoginPage.isErrorDisplayed()).to.be.false;
+        }
+        await LoginPage.login(data.wrong_user, data.wrong_password);
+        await validateAndCloseError();
 
-        await LoginPage.setUserName(data.wrong_user);
-        await LoginPage.setPassword(data.password);
-        await LoginPage.loginButton.click();
-        expect(await LoginPage.error.getText()).to.contain(data.error_message);
-        await LoginPage.errorButton.click();
-        expect(await LoginPage.isErrorDisplayed()).to.be.false;
+        await LoginPage.login(data.wrong_user, data.password);
+        await validateAndCloseError();
 
-        await LoginPage.setUserName(data.user);
-        await LoginPage.setPassword(data.wrong_password);
-        await LoginPage.loginButton.click();
-        expect(await LoginPage.error.getText()).to.contain(data.error_message);
-        await LoginPage.errorButton.click();
-        expect(await LoginPage.isErrorDisplayed()).to.be.false;
+        await LoginPage.login(data.user, data.wrong_password);
+        await validateAndCloseError();
     });
 
     it('[TC-3] User should be able to add item to cart', async () => {
         await LoginPage.login(data.user, data.password);
+        await InventoryPage.waitPageToLoad(5000);
         await InventoryPage.clearCart();
 
         await InventoryPage.addToCart(data.item_name);
@@ -68,6 +59,7 @@ describe('SauceDemo tests', () => {
 
     it('[TC-4] User should be able to delete item to cart', async () => {
         await LoginPage.login(data.user, data.password);
+        await InventoryPage.waitPageToLoad(5000);
         await InventoryPage.clearCart();
 
         await InventoryPage.addToCart(data.item_name);

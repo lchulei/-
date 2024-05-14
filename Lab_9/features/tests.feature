@@ -10,19 +10,13 @@ Feature: SauceDemo tests
         Given I on Login page
         When  I enter "incorrect" username and "incorrect" password
         And   I click login button
-        Then  I should see error message
-        When  I clear error message
-        Then  I should not see error message
+        Then  I validate and close error
         When  I enter "incorrect" username and "correct" password
         And   I click login button
-        Then  I should see error message
-        When  I clear error message
-        Then  I should not see error message
+        Then  I validate and close error
         When  I enter "correct" username and "incorrect" password
         And   I click login button
-        Then  I should see error message
-        When  I clear error message
-        Then  I should not see error message
+        Then  I validate and close error
     
     Scenario: [TC-3] User should be able to add item to cart
         Given I on Login page

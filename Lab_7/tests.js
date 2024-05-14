@@ -23,7 +23,6 @@ describe('SauceDemo tests', () => {
         await driver.findElement(By.id('user-name')).sendKeys(userName);
         await driver.findElement(By.id('password')).sendKeys(password);
         await driver.findElement(By.id('login-button')).click();
-        await driver.wait(until.elementLocated(By.xpath('//*[@data-test="title"]')), 2000);
     }
 
     const clearCart = async () => {
@@ -39,45 +38,33 @@ describe('SauceDemo tests', () => {
     }
   
     it('[TC-1] User should be able to login with correct credentials', async () => {
-        await driver.findElement(By.id('user-name')).sendKeys(data.user);
-        await driver.findElement(By.id('password')).sendKeys(data.password);
-        await driver.findElement(By.id('login-button')).click();
-
+        await login(data.user, data.password);
         await driver.wait(until.elementLocated(By.xpath('//*[@data-test="title"]')), 2000);
 
         const title = await driver.findElement(By.xpath('//*[@data-test="title"]')).getText();
-
         expect(title).to.eq('Products');
     }, 35000);
 
     it('[TC-2] User should see error messages when input incorrect data', async () => {
-        await driver.findElement(By.id('user-name')).sendKeys(data.wrong_user);
-        await driver.findElement(By.id('password')).sendKeys(data.wrong_password);
-        await driver.findElement(By.id('login-button')).click();
-        let error = await driver.findElement(By.xpath('//*[@data-test="error"]'));
-        expect(await error.getText()).to.contain(data.error_message);
-        await driver.findElement(By.xpath('//*[@data-test="error-button"]')).click();
-        expect(await driver.findElements(By.xpath('//*[@data-test="error"]'))).to.have.length(0);
+        const validateAndCloseError = async () => {
+            const error = await driver.findElement(By.xpath('//*[@data-test="error"]'));
+            expect(await error.getText()).to.contain(data.error_message);
+            await driver.findElement(By.xpath('//*[@data-test="error-button"]')).click();
+            expect(await driver.findElements(By.xpath('//*[@data-test="error"]'))).to.have.length(0);
+        }
+        await login(data.wrong_user, data.wrong_password);
+        await validateAndCloseError();
 
-        await driver.findElement(By.id('user-name')).sendKeys(data.wrong_user);
-        await driver.findElement(By.id('password')).sendKeys(data.password);
-        await driver.findElement(By.id('login-button')).click();
-        error = await driver.findElement(By.xpath('//*[@data-test="error"]'));
-        expect(await error.getText()).to.contain(data.error_message);
-        await driver.findElement(By.xpath('//*[@data-test="error-button"]')).click();
-        expect(await driver.findElements(By.xpath('//*[@data-test="error"]'))).to.have.length(0);
+        await login(data.wrong_user, data.password);
+        await validateAndCloseError();
 
-        await driver.findElement(By.id('user-name')).sendKeys(data.user);
-        await driver.findElement(By.id('password')).sendKeys(data.wrong_password);
-        await driver.findElement(By.id('login-button')).click();
-        error = await driver.findElement(By.xpath('//*[@data-test="error"]'));
-        expect(await error.getText()).to.contain(data.error_message);
-        await driver.findElement(By.xpath('//*[@data-test="error-button"]')).click();
-        expect(await driver.findElements(By.xpath('//*[@data-test="error"]'))).to.have.length(0);
+        await login(data.user, data.wrong_password);
+        await validateAndCloseError();
     });
 
     it('[TC-3] User should be able to add item to cart', async () => {
         await login(data.user, data.password);
+        await driver.wait(until.elementLocated(By.xpath('//*[@data-test="title"]')), 2000);
         await clearCart();
 
         await driver.findElement(By.id('add-to-cart-sauce-labs-backpack')).click();
@@ -88,6 +75,7 @@ describe('SauceDemo tests', () => {
 
     it('[TC-4] User should be able to delete item to cart', async () => {
         await login(data.user, data.password);
+        await driver.wait(until.elementLocated(By.xpath('//*[@data-test="title"]')), 2000);
         await clearCart();
 
         await driver.findElement(By.id('add-to-cart-sauce-labs-backpack')).click();

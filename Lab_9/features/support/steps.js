@@ -47,15 +47,9 @@ Then(/^I should be redirected to Inventory page$/, async () => {
     expect(await InventoryPage.title.getText()).to.eq('Products');
 });
 
-Then(/^I should( not)* see error message$/, async (negative) => {
-    if (negative) {
-        expect(await LoginPage.isErrorDisplayed()).to.be.false;
-    } else {
-        expect(await LoginPage.error.getText()).to.contain(data.error_message);
-    }
-});
-
-When(/^I clear error message$/, async () => {
+Then(/^I validate and close error$/, async () => {
+    expect(await LoginPage.error.getText()).to.contain(data.error_message);
+    expect(await LoginPage.isErrorDisplayed()).to.be.false;
     await LoginPage.errorButton.click();
 });
 

@@ -43,7 +43,6 @@ class LoginPage extends BasePage {
         await this.setUserName(userName);
         await this.setPassword(password);
         await this.loginButton.click();
-        await InventoryPage.waitPageToLoad(5000);
     }
 
 }
